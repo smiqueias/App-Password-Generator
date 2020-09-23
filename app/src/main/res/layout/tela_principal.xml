@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2D3347"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".TelaPrincipal">
+
+    <TextView
+        android:id="@+id/tv_passwordResult"
+        style="@android:style/Widget.EditText"
+        android:layout_width="259dp"
+        android:layout_height="47dp"
+        android:layout_marginVertical="120dp"
+        android:background="@drawable/my_border"
+        android:gravity="center" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/cb_lowerCase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp"
+        android:buttonTint="#5776DD"
+        android:text="Include lowercase letters"
+        android:textColor="#fa4454"
+        android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <CheckBox
+            android:id="@+id/cb_include_numbers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:buttonTint="#5776DD"
+            android:text="Include numbers"
+            android:textColor="#fa4454"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_upperCase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp"
+        android:buttonTint="#5776DD"
+        android:text="Include uppercase letters"
+        android:textColor="#fa4454"
+        android:textSize="25dp" />
+
+</LinearLayout>

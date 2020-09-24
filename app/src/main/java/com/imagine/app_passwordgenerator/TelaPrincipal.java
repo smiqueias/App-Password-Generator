@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.security.SecureRandom;
 
 
@@ -21,6 +22,7 @@ public class TelaPrincipal extends AppCompatActivity {
     RadioGroup radiogroup;
     RadioButton radioButton;
     StringBuilder concatenatingLetters;
+
     private final String alphabetUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String numbers = "0123456789";
     private final String concatenateNumbersLetters = alphabetUpperCase + alphabetUpperCase.toLowerCase() + numbers;
@@ -32,6 +34,7 @@ public class TelaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_principal);
 
+        //Pegando o id dos componentes do layout para serem usados na lógica
         tv_passwordResult = findViewById(R.id.tv_passwordResult);
         cb_include_numbers = findViewById(R.id.cb_include_numbers);
         cb_lowerCase = findViewById(R.id.cb_lowerCase);
@@ -50,80 +53,21 @@ public class TelaPrincipal extends AppCompatActivity {
                 }
 
                 else if (cb_upperCase.isChecked() && cb_lowerCase.isChecked()) {
+                    userChoseLowerAndUpper();
 
-                    switch (buttonSelectedAsInteger()) {
+                }
 
-                        case 5:
-                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(5));
-                            break;
-                        case 10:
-                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(10));
-                            break;
-                        case 15:
-                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(15));
-                            break;
-                        case 20:
-                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(20));
-                            break;
-                    }
-                } else if (cb_upperCase.isChecked()) {
+                else if (cb_upperCase.isChecked()) {
+                    userChoseUpperCase();
 
-                    switch (buttonSelectedAsInteger()) {
-                        case 5:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(5));
-                            break;
-
-                        case 10:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(10));
-                            break;
-                        case 15:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(15));
-                            break;
-
-                        case 20:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(20));
-                            break;
-                    }
                 }
 
                 else if (cb_lowerCase.isChecked()) {
-                    switch (buttonSelectedAsInteger()) {
-
-                        case 5:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(5)
-                                    .toString()
-                                    .toLowerCase());
-
-                            break;
-
-                        case 10:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(10)
-                                    .toString()
-                                    .toLowerCase());
-                            break;
-                        case 15:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(15)
-                                    .toString()
-                                    .toLowerCase());
-                            break;
-
-                        case 20:
-                            tv_passwordResult.setText(generateRandomUppercasePassword(20)
-                                    .toString()
-                                    .toLowerCase());
-                            break;
-                    }
+                    userChoseLowerCase();
                 }
 
-                else if(cb_include_numbers.isChecked()) {
-
-                    switch (buttonSelectedAsInteger()) {
-
-                        case 5:
-                                tv_passwordResult.setText(generateRandomNumbersToPassword(5));
-                            break;
-
-                    }
+                else if (cb_include_numbers.isChecked()) {
+                    userChoseOnlyNumbers();
                 }
             }
         });
@@ -192,6 +136,7 @@ public class TelaPrincipal extends AppCompatActivity {
         return concatenatingLetters;
     }
 
+    //Gera e concatena números aleatórios
     public StringBuilder generateRandomNumbersToPassword(int passwordlength) {
 
         concatenatingLetters = new StringBuilder();
@@ -202,6 +147,97 @@ public class TelaPrincipal extends AppCompatActivity {
             concatenatingLetters.append(random);
         }
 
-        return  concatenatingLetters;
+        return concatenatingLetters;
+    }
+
+    //Rotina caso o usuário escolha letras maiúsculas
+    public void userChoseUpperCase() {
+
+        switch (buttonSelectedAsInteger()) {
+            case 5:
+                tv_passwordResult.setText(generateRandomUppercasePassword(5));
+                break;
+
+            case 10:
+                tv_passwordResult.setText(generateRandomUppercasePassword(10));
+                break;
+            case 15:
+                tv_passwordResult.setText(generateRandomUppercasePassword(15));
+                break;
+
+            case 20:
+                tv_passwordResult.setText(generateRandomUppercasePassword(20));
+                break;
+        }
+    }
+
+    //Rotina caso o usuário escolha letras minúsculas
+    public void userChoseLowerCase() {
+
+        switch (buttonSelectedAsInteger()) {
+
+            case 5:
+                tv_passwordResult.setText(generateRandomUppercasePassword(5)
+                        .toString()
+                        .toLowerCase());
+
+                break;
+
+            case 10:
+                tv_passwordResult.setText(generateRandomUppercasePassword(10)
+                        .toString()
+                        .toLowerCase());
+                break;
+            case 15:
+                tv_passwordResult.setText(generateRandomUppercasePassword(15)
+                        .toString()
+                        .toLowerCase());
+                break;
+
+            case 20:
+                tv_passwordResult.setText(generateRandomUppercasePassword(20)
+                        .toString()
+                        .toLowerCase());
+                break;
+        }
+    }
+
+    //Rotina caso o usuário escolha letras maiúsculas e minúsculas
+    public void userChoseLowerAndUpper() {
+        switch (buttonSelectedAsInteger()) {
+
+            case 5:
+                tv_passwordResult.setText(generateUpperAndLowerCaseLetters(5));
+                break;
+            case 10:
+                tv_passwordResult.setText(generateUpperAndLowerCaseLetters(10));
+                break;
+            case 15:
+                tv_passwordResult.setText(generateUpperAndLowerCaseLetters(15));
+                break;
+            case 20:
+                tv_passwordResult.setText(generateUpperAndLowerCaseLetters(20));
+                break;
+        }
+    }
+
+    //Rotina caso o usuário escolha apenas números
+    public void userChoseOnlyNumbers() {
+        switch (buttonSelectedAsInteger()) {
+
+            case 5:
+                tv_passwordResult.setText(generateRandomNumbersToPassword(5));
+                break;
+            case 10:
+                tv_passwordResult.setText(generateRandomNumbersToPassword(10));
+                break;
+            case 15:
+                tv_passwordResult.setText(generateRandomNumbersToPassword(15));
+                break;
+            case 20:
+                tv_passwordResult.setText(generateRandomNumbersToPassword(20));
+                break;
+        }
     }
 }
+

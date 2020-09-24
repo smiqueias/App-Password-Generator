@@ -10,11 +10,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.security.SecureRandom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 public class TelaPrincipal extends AppCompatActivity {
 
@@ -24,8 +21,11 @@ public class TelaPrincipal extends AppCompatActivity {
     RadioGroup radiogroup;
     RadioButton radioButton;
     StringBuilder concatenatingLetters;
-    CharSequence[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-
+    private final String alphabetUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String numbers = "0123456789";
+    private final String concatenateNumbersLetters = alphabetUpperCase + alphabetUpperCase.toLowerCase() + numbers;
+    char[] alphabet = alphabetUpperCase.toCharArray();
+    char[] alphabetLowerCase = alphabetUpperCase.toLowerCase().toCharArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +49,39 @@ public class TelaPrincipal extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
 
-                else if (cb_upperCase.isChecked()) {
+                else if (cb_upperCase.isChecked() && cb_lowerCase.isChecked()) {
+
+                    switch (buttonSelectedAsInteger()) {
+
+                        case 5:
+                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(5));
+                            break;
+                        case 10:
+                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(10));
+                            break;
+                        case 15:
+                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(15));
+                            break;
+                        case 20:
+                            tv_passwordResult.setText(generateUpperAndLowerCaseLetters(20));
+                            break;
+                    }
+                } else if (cb_upperCase.isChecked()) {
 
                     switch (buttonSelectedAsInteger()) {
                         case 5:
-                            tv_passwordResult.setText(letterGenerator(5));
+                            tv_passwordResult.setText(generateRandomUppercasePassword(5));
                             break;
 
                         case 10:
-                            tv_passwordResult.setText(letterGenerator(10));
+                            tv_passwordResult.setText(generateRandomUppercasePassword(10));
                             break;
                         case 15:
-                            tv_passwordResult.setText(letterGenerator(15));
+                            tv_passwordResult.setText(generateRandomUppercasePassword(15));
                             break;
 
                         case 20:
-                            tv_passwordResult.setText(letterGenerator(20));
+                            tv_passwordResult.setText(generateRandomUppercasePassword(20));
                             break;
                     }
                 }
@@ -73,47 +90,63 @@ public class TelaPrincipal extends AppCompatActivity {
                     switch (buttonSelectedAsInteger()) {
 
                         case 5:
-                            tv_passwordResult.setText(letterGenerator(5)
-                                    .toString().toLowerCase());
+                            tv_passwordResult.setText(generateRandomUppercasePassword(5)
+                                    .toString()
+                                    .toLowerCase());
+
                             break;
 
                         case 10:
-                            tv_passwordResult.setText(letterGenerator(10)
-                                    .toString().toLowerCase());
+                            tv_passwordResult.setText(generateRandomUppercasePassword(10)
+                                    .toString()
+                                    .toLowerCase());
                             break;
                         case 15:
-                            tv_passwordResult.setText(letterGenerator(15)
-                                    .toString().toLowerCase());
+                            tv_passwordResult.setText(generateRandomUppercasePassword(15)
+                                    .toString()
+                                    .toLowerCase());
                             break;
 
                         case 20:
-                            tv_passwordResult.setText(letterGenerator(20)
-                                    .toString().toLowerCase());
+                            tv_passwordResult.setText(generateRandomUppercasePassword(20)
+                                    .toString()
+                                    .toLowerCase());
                             break;
                     }
                 }
 
-                else if (cb_upperCase.isChecked() && cb_lowerCase.isChecked()) {
+                else if(cb_include_numbers.isChecked()) {
 
-                    tv_passwordResult.setText(scrambledLetters(5));
+                    switch (buttonSelectedAsInteger()) {
+
+                        case 5:
+                                tv_passwordResult.setText(generateRandomNumbersToPassword(5));
+                            break;
+
+                    }
                 }
-
             }
         });
     }
 
+
     //FUNÇÕES DE APOIO
 
+    /*Transforma a String alphabetUpperCase em um array de caracteres
+      e de acordo com o tamanho indicado pelo usuário é retornado o password
+     */
+    public CharSequence generateRandomUppercasePassword(int passwordlength) {
 
-    //Retorna uma palavra aleatória do array alphabet
-    public CharSequence letterAlphabet() {
+        concatenatingLetters = new StringBuilder();
 
-        CharSequence returnedLetter = "";
 
-            int alfabetoIndice = new Random().nextInt(26);
-            returnedLetter = alphabet[alfabetoIndice];
+        for (int i = 0; i < passwordlength; i++) {
 
-        return  returnedLetter;
+            int random = new SecureRandom().nextInt(alphabet.length);
+
+            concatenatingLetters.append(alphabet[random]);
+        }
+        return concatenatingLetters;
     }
 
     //Identifica qual tamanho de senha o usuário escolheu e retorna o mesmo como inteiro
@@ -125,42 +158,50 @@ public class TelaPrincipal extends AppCompatActivity {
         return Integer.parseInt(radioButton.getText().toString());
     }
 
-    /*De acordo com o tamanho escolhido pelo usuário a função retorna
-    letras aleatórias do array alphabet e junta tudo
-     */
-    public CharSequence letterGenerator(int passwordLength) {
+    //Pega os dois arrays de caracteres e faz concatenação desses dois.
+    public char[] concatenatingUpperAndLowerCase(char[] arrayLettersUpper, char[] arrayLettersLower) {
+
+        char[] newArrayConcatenated = new char[arrayLettersLower.length + arrayLettersUpper.length];
+
+        int sentinela = 0;
+
+        for (int i = 0; i < arrayLettersUpper.length; i++) {
+            newArrayConcatenated[sentinela++] = arrayLettersLower[i];
+        }
+
+        for (int i = 0; i < arrayLettersUpper.length; i++) {
+            newArrayConcatenated[sentinela++] = arrayLettersUpper[i];
+        }
+
+        return newArrayConcatenated;
+    }
+
+    //Percorre o array concatenado para retornar letras maiúsculas e minúsculas
+    public CharSequence generateUpperAndLowerCaseLetters(int passwordlength) {
 
         concatenatingLetters = new StringBuilder();
 
-        for(int i = 0; i < passwordLength; i++) {
-            letterAlphabet();
-            concatenatingLetters.append(letterAlphabet());
+        char[] sequence = concatenatingUpperAndLowerCase(alphabet, alphabetLowerCase);
+
+        for (int i = 0; i < passwordlength; i++) {
+
+            int random = new SecureRandom().nextInt(alphabet.length + alphabetLowerCase.length);
+
+            concatenatingLetters.append(sequence[random]);
         }
         return concatenatingLetters;
     }
 
-    public CharSequence scrambledLetters(int passwordLength) {
+    public StringBuilder generateRandomNumbersToPassword(int passwordlength) {
 
-        List<CharSequence> lettersUpperAndLowerCase = new ArrayList<>();
+        concatenatingLetters = new StringBuilder();
 
-            concatenatingLetters = new StringBuilder();
+        for (int i = 0; i < passwordlength; i++) {
+            int random = new SecureRandom().nextInt(10);
 
-
-        for (int i = 0; i < passwordLength; i++) {
-
-            int random = new Random().nextInt(10000);
-            int indexRandom = new Random().nextInt(27);
-
-            if (random % 2 == 0) {
-                lettersUpperAndLowerCase.add(alphabet[indexRandom]);
-                concatenatingLetters.append(lettersUpperAndLowerCase);
-            }
-            else {
-                lettersUpperAndLowerCase.add(alphabet[indexRandom].toString().toLowerCase());
-                concatenatingLetters.append(lettersUpperAndLowerCase);
-            }
-
+            concatenatingLetters.append(random);
         }
-            return concatenatingLetters;
-        }
+
+        return  concatenatingLetters;
     }
+}

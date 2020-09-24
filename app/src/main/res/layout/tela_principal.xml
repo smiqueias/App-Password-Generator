@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2D3347"
-    android:gravity="center"
+    android:gravity="center|top"
     android:orientation="vertical"
     tools:context=".TelaPrincipal">
 
@@ -16,12 +16,69 @@
         android:layout_height="47dp"
         android:layout_marginVertical="120dp"
         android:background="@drawable/my_border"
-        android:textSize="25dp"
         android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="center"
         android:textColor="#fff"
+        android:textSize="20dp" />
 
-        android:gravity="center" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="-50dp"
+        android:gravity="center|top"
+        android:text="Password length"
+        android:textColor="#fa4454"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+            android:id="@+id/rb_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#5776DD"
+            android:text="5"
+            android:textColor="#fa4454"/>
+
+
+        <RadioButton
+            android:id="@+id/rb_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#5776DD"
+            android:text="10"
+            android:textColor="#fa4454" />
+
+        <RadioButton
+            android:id="@+id/rb_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#5776DD"
+            android:text="15"
+            android:textColor="#fa4454" />
+
+        <RadioButton
+            android:id="@+id/rb_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#5776DD"
+            android:text="20"
+            android:textColor="#fa4454" />
+        </RadioGroup>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +94,7 @@
         android:buttonTint="#5776DD"
         android:text="@string/lowercase"
         android:textColor="#fa4454"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,7 +119,7 @@
             android:buttonTint="#5776DD"
             android:text="@string/numbers"
             android:textColor="#fa4454"
-            android:textSize="25dp" />
+            android:textSize="20dp" />
     </LinearLayout>
 
     <CheckBox
@@ -73,7 +130,7 @@
         android:buttonTint="#5776DD"
         android:text="@string/uppercase"
         android:textColor="#fa4454"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/bt_generatePassword"
@@ -82,5 +139,5 @@
         android:text="@string/generatepassword"
         android:textColor="#fff"
         android:background="#3B529C"
-        android:layout_marginVertical="15dp"/>
+        android:layout_marginVertical="0dp"/>
 </LinearLayout>

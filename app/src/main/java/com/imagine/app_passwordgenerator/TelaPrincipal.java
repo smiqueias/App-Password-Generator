@@ -2,6 +2,9 @@ package com.imagine.app_passwordgenerator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.security.SecureRandom;
-
 
 public class TelaPrincipal extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
     private final String alphabetUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String numbers = "0123456789";
-    private final String concatenateNumbersLetters = alphabetUpperCase + alphabetUpperCase.toLowerCase() + numbers;
+    private final String concatenateNumbersLetters = alphabetUpperCase + numbers;
     char[] alphabet = alphabetUpperCase.toCharArray();
     char[] alphabetLowerCase = alphabetUpperCase.toLowerCase().toCharArray();
 
@@ -43,18 +44,40 @@ public class TelaPrincipal extends AppCompatActivity {
         radiogroup = findViewById(R.id.radiogroup);
 
 
+        tv_passwordResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("TextView", tv_passwordResult.getText().toString());
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(TelaPrincipal.this,"Password copied to clipboard",Toast.LENGTH_SHORT)
+                        .show();
+
+            }
+        });
+
         bt_generatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (!cb_upperCase.isChecked() && !cb_include_numbers.isChecked() && !cb_lowerCase.isChecked()) {
-                    Toast.makeText(TelaPrincipal.this, "Selecione um filtro",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(TelaPrincipal.this, "Select a filter",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 else if (cb_upperCase.isChecked() && cb_lowerCase.isChecked()) {
                     userChoseLowerAndUpper();
 
+                }
+
+                else if(cb_upperCase.isChecked() && cb_include_numbers.isChecked()) {
+                    userChoseUpperAndNumber();
+                }
+
+                else if(cb_lowerCase.isChecked() && cb_include_numbers.isChecked()) {
+                    userChoseLowerAndNumber();
                 }
 
                 else if (cb_upperCase.isChecked()) {
@@ -238,6 +261,80 @@ public class TelaPrincipal extends AppCompatActivity {
                 tv_passwordResult.setText(generateRandomNumbersToPassword(20));
                 break;
         }
+    }
+
+    //Concatena números e letras maiúsculas
+    public StringBuilder concatenatingUpperAndNumbers(int passwordlength) {
+
+        concatenatingLetters = new StringBuilder();
+
+        char[] fullLettersAndNumbers = concatenateNumbersLetters.toCharArray();
+
+        for (int i = 0; i < passwordlength; i++) {
+
+            int random = new SecureRandom().nextInt(fullLettersAndNumbers.length);
+
+            concatenatingLetters.append(fullLettersAndNumbers[random]);
+        }
+        return concatenatingLetters;
+    }
+
+    public String concatenatingLowerAndNumbers(int passwordlength) {
+        concatenatingLetters = new StringBuilder();
+
+        char[] fullLettersAndNumbers = concatenateNumbersLetters.toCharArray();
+
+        for (int i = 0; i < passwordlength; i++) {
+
+            int random = new SecureRandom().nextInt(fullLettersAndNumbers.length);
+
+            concatenatingLetters.append(fullLettersAndNumbers[random]);
+        }
+        return concatenatingLetters.toString().toLowerCase();
+    }
+
+
+    public void userChoseUpperAndNumber() {
+        switch (buttonSelectedAsInteger()) {
+
+            case 5:
+                tv_passwordResult.setText(concatenatingUpperAndNumbers(5));
+                break;
+            case 10:
+                tv_passwordResult.setText(concatenatingUpperAndNumbers(10));
+                break;
+            case 15:
+                tv_passwordResult.setText(concatenatingUpperAndNumbers(15));
+                break;
+            case 20:
+                tv_passwordResult.setText(concatenatingUpperAndNumbers(20));
+                break;
+        }
+    }
+
+    public void userChoseLowerAndNumber() {
+        switch (buttonSelectedAsInteger()) {
+
+            case 5:
+                tv_passwordResult.setText(concatenatingLowerAndNumbers(5));
+                break;
+            case 10:
+                tv_passwordResult.setText(concatenatingLowerAndNumbers(10));
+                break;
+            case 15:
+                tv_passwordResult.setText(concatenatingLowerAndNumbers(15));
+                break;
+            case 20:
+                tv_passwordResult.setText(concatenatingLowerAndNumbers(20));
+                break;
+        }
+    }
+
+    //Copia a senha gerada para a área de transferência do celular
+    public void copy() {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("TextView", tv_passwordResult.getText().toString());
+        clipboard.setPrimaryClip(clip);
     }
 }
 
